@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    font-family: Arial;
+    background-color: #3498DB;
+    padding: 50px;
+}
+
+.signup {
+    margin: 20px auto;
+    width: 300px;
+}
+
+.signup-screen {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.app-title {
+    text-align: center;
+    color: #777;
+}
+
+.signup-form {
+    text-align: center;
+}
+
+.control-group {
+    margin-bottom: 10px;
+}
+
+input {
+    text-align: center;
+    background-color: #ECF0F1;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 10px 0;
+    width: 250px;
+    transition: border .5s;
+}
+
+input:focus {
+    border: 2px solid #3498DB;
+    box-shadow: none;
+}
+
+.btn2 {
+    border: 2px solid transparent;
+    background: #c0c0c0;
+    color: #000000;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 0;
+    text-decoration: none;
+    text-shadow: none;
+    border-radius: 3px;
+    box-shadow: none;
+    transition: 0.25s;
+    display: block;
+    width: 250px;
+    margin: 0 auto;
+}
+
+.btn2:hover {
+    background-color: #808080;
+}
+
+/* Add asterisk to required fields */
+label.required::after {
+    content: "*";
+    color: red;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+/* Styling for the input fields that are required */
+input:invalid {
+    border: 2px solid red;
+}
+
+/* Optional: Style for the error message when an input is invalid */
+input:invalid + .error-message {
+    color: red;
+    font-size: 12px;
+    display: block;
+}

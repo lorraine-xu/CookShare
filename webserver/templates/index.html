@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
+</head>
+
+{% include 'navbar.html' %}
+
+<body>
+    <div class="container">
+        <!-- Filters Section -->
+        <form method="POST" action="/">
+          <div class="filters">
+              <h2>Filters</h2>
+              <!-- Date Range Filter -->
+              <div class="date-range-filter">
+                  <div>
+                      <label for="start-datetime">Start Time:</label>
+                      <input type="datetime-local" id="start-datetime" name="start-datetime">
+                  </div>
+                  <div>
+                      <label for="end-datetime">End Time:</label>
+                      <input type="datetime-local" id="end-datetime" name="end-datetime">
+                  </div>
+              </div>
+              <div class="location-filter">
+                <label for="state-select">Select a State</label>
+                <select id="state-select" name="state">
+                    <option value="" disabled selected>Choose a state</option>
+                </select>
+                <label for="city-select">Select a City</label>
+                <select id="city-select" name="city">
+                    <option value="" disabled selected>Choose a city</option>
+                </select>
+              </div>
+              
+              <!-- Expandable Filters -->
+              <button type="button" id="expand-filters">Expand Filters</button> <!-- Prevents form submission -->
+              <div id="extra-filters" style="display: none;">
+                  <h3>Additional Filters</h3>
+        
+                  <!-- Dietary Restrictions -->
+                  <div class="dietary-restrictions">
+                      <label for="dietary-restrictions">Dietary Restrictions:</label>
+                      <select id="dietary-restrictions" name="dietary-restrictions">
+                          <option value="">Select a restriction</option>
+                          <option value="Vegan">Vegan</option>
+                          <option value="Vegetarian">Vegetarian</option>
+                          <option value="Kosher">Kosher</option>
+                          <option value="Halal">Halal</option>
+                          <option value="Gluten-Free">Gluten-Free</option>
+                          <option value="Nut-Free">Nut-Free</option>
+                          <option value="Dairy-Free">Dairy-Free</option>
+                          <option value="Paleo">Paleo</option>
+                          <option value="None">None</option>
+                      </select>
+                  </div>
+        
+                  <!-- Meal Types -->
+                  <div class="meal-types">
+                      <label for="meal-types">Meal Types:</label>
+                      <select id="meal-types" name="meal-types">
+                          <option value="">Select a meal type</option>
+                          <option value="Italian">Italian</option>
+                          <option value="Mexican">Mexican</option>
+                          <option value="Seafood">Seafood</option>
+                          <option value="Fusion">Fusion</option>
+                          <option value="Paleo">Paleo</option>
+                          <option value="Chinese-food">Chinese food</option>
+                          <option value="Keto">Keto</option>
+                          <option value="Indian">Indian</option>
+                          <option value="Mediterranean">Mediterranean</option>
+                          <option value="American">American</option>
+                      </select>
+                  </div>
+        
+                  <!-- In Return Options -->
+                  <div class="in-return">
+                      <label for="in-return">In Return:</label>
+                      <select id="in-return" name="in-return">
+                          <option value="">Select an option</option>
+                          <option value="Cash">Cash</option>
+                          <option value="Doing dishes">Doing Dishes</option>
+                          <option value="Bringing ingredients">Bringing Ingredients</option>
+                          <option value="Bringing sauces">Bringing Sauces</option>
+                      </select>
+                  </div>
+              </div>
+              <button id="submit-filters" type="submit">Submit</button>
+              <button id="reset-filters" type="button" onclick="window.location.href='/'">Reset Filters</button>
+          </div>
+        </form>
+        
+
+        <!-- Posts Section -->
+        <div class="posts">
+          <h2>Posts</h2>
+          <div class="posts-container">
+            {% for post in posts %}
+            <div class="post">
+                <div class="post-header">
+                <div class="post-image"> </div>
+                    <h3>{{ post.meal_title }}</h3>
+                    <p><strong>Time:</strong> {{ post.time }}</p>
+                    <p><strong>Location:</strong> {{post.address}}, {{post.city}}, {{ post.state }}</p>
+                    <p>
+                      <strong>Posted By:</strong> 
+                      <a href="{{ url_for('profile', username=post.username) }}" class="user-link">{{ post.username }}</a>
+                    </p>
+                </div>
+                <div class="post-body">
+                    <p><strong>Menu:</strong> {{ post.menu }}</p>
+                    <p><strong>Meal Type:</strong> {{ post.meal_type }}</p>
+                    <p><strong>Dietary Restrictions:</strong> {{ post.dietary_restriction }}</p>
+                    <p><strong>In Return:</strong> {{ post.in_return }}</p>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="pagination">
+          {% if page > 1 %}
+              <a href="/?page={{ page - 1 }}{% for key, value in filters.items() %}&{{ key }}={{ value }}{% endfor %}" class="prev">Previous</a>
+          {% endif %}
+      
+          {% for p in range(1, total_pages + 1) %}
+              <a href="/?page={{ p }}{% for key, value in filters.items() %}&{{ key }}={{ value }}{% endfor %}" class="{% if p == page %}active{% endif %}">{{ p }}</a>
+          {% endfor %}
+      
+          {% if page < total_pages %}
+              <a href="/?page={{ page + 1 }}{% for key, value in filters.items() %}&{{ key }}={{ value }}{% endfor %}" class="next">Next</a>
+          {% endif %}
+      </div>      
+        
+      
+      
+    </div>
+</body>
+
+</html>
